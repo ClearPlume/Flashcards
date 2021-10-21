@@ -10,7 +10,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,8 +46,6 @@ fun MainPage() {
             modifier = Modifier.fillMaxSize(1f),
             constraintSet = constraintSet
         ) {
-            val context = LocalContext.current
-
             Text(
                 modifier = Modifier.layoutId("title"),
                 text = "抽 认 卡",
@@ -58,42 +55,42 @@ fun MainPage() {
             )
 
             Button(
-                onClick = { toast("添加新卡片", context) },
-                modifier = Modifier.layoutId("add")
-            ) {
-                Text(text = "添加新卡片")
-            }
-
-            Button(
-                onClick = { toast("删除已有卡片", context) },
-                modifier = Modifier.layoutId("delete")
-            ) {
-                Text(text = "删除已有卡片")
-            }
-
-            Button(
-                onClick = { toast("从文件导入新卡片", context) },
-                modifier = Modifier.layoutId("import")
-            ) {
-                Text(text = "从文件导入新卡片")
-            }
-
-            Button(
-                onClick = { toast("将卡片导出到文件", context) },
-                modifier = Modifier.layoutId("export")
-            ) {
-                Text(text = "将卡片导出到文件")
-            }
-
-            Button(
-                onClick = { toast("开始练习", context) },
+                onClick = onPractice(),
                 modifier = Modifier.layoutId("practice")
             ) {
                 Text(text = "开始练习")
             }
 
             Button(
-                onClick = { exitProcess(0) },
+                onClick = onAdd(),
+                modifier = Modifier.layoutId("add")
+            ) {
+                Text(text = "添加新卡片")
+            }
+
+            Button(
+                onClick = onDelete(),
+                modifier = Modifier.layoutId("delete")
+            ) {
+                Text(text = "删除已有卡片")
+            }
+
+            Button(
+                onClick = onImport(),
+                modifier = Modifier.layoutId("import")
+            ) {
+                Text(text = "从文件导入新卡片")
+            }
+
+            Button(
+                onClick = onExport(),
+                modifier = Modifier.layoutId("export")
+            ) {
+                Text(text = "将卡片导出到文件")
+            }
+
+            Button(
+                onClick = onExit(),
                 modifier = Modifier.layoutId("exit")
             ) {
                 Text(text = "退出")
@@ -105,11 +102,11 @@ fun MainPage() {
 private fun decoupledConstraint(title2Top: Dp, btn2Title: Dp, btnSpace: Dp): ConstraintSet {
     return ConstraintSet {
         val title = createRefFor("title")
+        val practice = createRefFor("practice")
         val add = createRefFor("add")
         val delete = createRefFor("delete")
         val import = createRefFor("import")
         val export = createRefFor("export")
-        val practice = createRefFor("practice")
         val exit = createRefFor("exit")
 
         constrain(title) {
@@ -117,8 +114,13 @@ private fun decoupledConstraint(title2Top: Dp, btn2Title: Dp, btnSpace: Dp): Con
             centerHorizontallyTo(parent)
         }
 
-        constrain(add) {
+        constrain(practice) {
             top.linkTo(title.bottom, margin = btn2Title)
+            centerHorizontallyTo(parent)
+        }
+
+        constrain(add) {
+            top.linkTo(practice.bottom, margin = btnSpace)
             centerHorizontallyTo(parent)
         }
 
@@ -137,14 +139,45 @@ private fun decoupledConstraint(title2Top: Dp, btn2Title: Dp, btnSpace: Dp): Con
             centerHorizontallyTo(parent)
         }
 
-        constrain(practice) {
+        constrain(exit) {
             top.linkTo(export.bottom, margin = btnSpace)
             centerHorizontallyTo(parent)
         }
+    }
+}
 
-        constrain(exit) {
-            top.linkTo(practice.bottom, margin = btnSpace)
-            centerHorizontallyTo(parent)
-        }
+private fun onAdd(): () -> Unit {
+    return {
+        println("添加新卡片")
+    }
+}
+
+private fun onDelete(): () -> Unit {
+    return {
+        println("删除已有卡片")
+    }
+}
+
+private fun onImport(): () -> Unit {
+    return {
+        println("从文件导入新卡片")
+    }
+}
+
+private fun onExport(): () -> Unit {
+    return {
+        println("将卡片导出到文件")
+    }
+}
+
+private fun onPractice(): () -> Unit {
+    return {
+        println("开始练习")
+    }
+}
+
+private fun onExit(): () -> Unit {
+    return {
+        exitProcess(0)
     }
 }
