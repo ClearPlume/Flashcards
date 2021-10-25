@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Flashcards</string>
+    <string name="home_title">抽 认 卡</string>
+    <string name="home_practice_btn">开始练习</string>
+    <string name="home_add_btn">添加新卡片</string>
+    <string name="home_delete_btn">删除已有卡片</string>
+    <string name="home_import_btn">从文件导入新卡片</string>
+    <string name="home_export_btn">将卡片导出到文件</string>
+    <string name="home_exit_btn">退出</string>
 </resources>
